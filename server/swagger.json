@@ -1,0 +1,53 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Hangman Game API",
+      "version": "1.0.0",
+      "description": "API for submitting game results and retrieving win percentages"
+    },
+    "paths": {
+      "/results": {
+        "post": {
+          "summary": "Submit game result",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "result": { "type": "string", "enum": ["win", "loss"] }
+                  },
+                  "required": ["username", "result"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "Result saved" },
+            "400": { "description": "Invalid input" },
+            "500": { "description": "Database error" }
+          }
+        }
+      },
+      "/results/stats/{username}": {
+        "get": {
+          "summary": "Get user win statistics",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Stats returned" },
+            "500": { "description": "Database error" }
+          }
+        }
+      }
+    }
+  }
+  
